@@ -1,0 +1,12 @@
+github.com/DionTech/stdoutformat v0.0.0-20210109194642-67e28c07fb6b h1:kOd5M+V+/Pup61x6NCxt0c6qnUHOREu1d5ckj7OpbJE=
+github.com/DionTech/stdoutformat v0.0.0-20210109194642-67e28c07fb6b/go.mod h1:ozQuxJbD62g+aHZBoCq6lYrNHyLTcDa8rsYqDXGfVl0=
+github.com/DionTech/stdoutformat v0.0.1 h1:XQzBviMXcJDerir42qEt4VWAa1erfTToThimWkjnW6Q=
+github.com/DionTech/stdoutformat v0.0.1/go.mod h1:ozQuxJbD62g+aHZBoCq6lYrNHyLTcDa8rsYqDXGfVl0=
+github.com/common-nighthawk/go-figure v0.0.0-20200609044655-c4b36f998cf2 h1:tjT4Jp4gxECvsJcYpAMtW2I3YqzBTPuB67OejxXs86s=
+github.com/common-nighthawk/go-figure v0.0.0-20200609044655-c4b36f998cf2/go.mod h1:mk5IQ+Y0ZeO87b858TlA645sVcEcbiX6YqP98kt+7+w=
+github.com/mattn/go-runewidth v0.0.10 h1:CoZ3S2P7pvtP45xOtBw+/mDL2z0RKI576gSkzRRpdGg=
+github.com/mattn/go-runewidth v0.0.10/go.mod h1:RAqKPSqVFrSLVXbA8x7dzmKdmGzieGRCM46jaSJTDAk=
+github.com/rivo/uniseg v0.1.0 h1:+2KBaVoUmb9XzDsrx/Ct0W/EYOSFf/nWTauy++DprtY=
+github.com/rivo/uniseg v0.1.0/go.mod h1:J6wj4VEh+S6ZtnVlnTBMWIodfgj8LQOQFoIToxlJtxc=
+github.com/tatsushid/go-prettytable v0.0.0-20141013043238-ed2d14c29939 h1:BhIUXV2ySTLrKgh/Hnts+QTQlIbWtomXt3LMdzME0A0=
+github.com/tatsushid/go-prettytable v0.0.0-20141013043238-ed2d14c29939/go.mod h1:omGxs4/6hNjxPKUTjmaNkPzehSnNJOJN6pMEbrlYIT4=
