@@ -18,6 +18,7 @@ type Dump struct {
 	ThreatCrowdResult ThreatCrowdResult
 	ForwardARecord    []net.IP
 	MX                []*net.MX
+	Nameserver        []*net.NS
 	TXT               []string
 	Subdomains        map[string]string
 	Certificates      map[string]string
@@ -60,5 +61,10 @@ func (dump *Dump) ScanTXTRecords() {
 
 func (dump *Dump) ScanForwardARecord() {
 	dump.ForwardARecord, _ = net.LookupIP(dump.Domain)
+	ProcessWaitGroup.Done()
+}
+
+func (dump *Dump) ScanNameserver() {
+	dump.Nameserver, _ = net.LookupNS(dump.Domain)
 	ProcessWaitGroup.Done()
 }
