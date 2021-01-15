@@ -8,8 +8,14 @@ Recommended: set an alias.
 
 # usage
 
-at the moment, there are no options set; will come soon
+scanning will be this and will store a file "devports.de.json" at current folder:
 
 ``` zsh
 assetdump devports.de
+```
+
+loading this json is really simple, only
+
+```zsh
+assetdump -load devports.de
 ```
