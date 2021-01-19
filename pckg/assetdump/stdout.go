@@ -2,10 +2,46 @@ package assetdump
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/tatsushid/go-prettytable"
 )
+
+func (dump *Dump) OutputHosts() {
+	hosts := make(map[string]bool, 0)
+
+	for _, hostList := range dump.HostLookup.IPs {
+		for _, host := range hostList {
+			if _, exists := hosts[host]; exists == false {
+				hosts[host] = true
+			}
+		}
+	}
+
+	for subdomain := range dump.Subdomains {
+		if _, exists := hosts[subdomain]; exists == false {
+			hosts[subdomain] = true
+		}
+	}
+
+	for crt := range dump.Certificates {
+		if _, exists := hosts[crt]; exists == false {
+			hosts[crt] = true
+		}
+	}
+
+	//ordered map here
+	keys := make([]string, 0, len(hosts))
+	for k := range hosts {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+
+	for _, k := range keys {
+		fmt.Println(k, hosts[k])
+	}
+}
 
 func (dump *Dump) OutputIPs() {
 	ips := make(map[string]bool, 0)
@@ -38,10 +74,17 @@ func (dump *Dump) OutputIPs() {
 		}
 	}
 
-	fmt.Println("\n")
-	for ip, _ := range ips {
-		fmt.Println(ip)
+	//ordered map here
+	keys := make([]string, 0, len(ips))
+	for k := range ips {
+		keys = append(keys, k)
 	}
+	sort.Strings(keys)
+
+	for _, k := range keys {
+		fmt.Println(k, ips[k])
+	}
+
 }
 
 func (dump *Dump) Output() {
