@@ -14,6 +14,12 @@ func main() {
 	var load bool
 	flag.BoolVar(&load, "load", false, "load the stored scan")
 
+	var list bool
+	flag.BoolVar(&list, "list", false, "show available scans")
+
+	var path string
+	flag.StringVar(&path, "path", "./", "list all available scans in specific path / fetch the stored scan deep inside specific path")
+
 	var pretty bool
 	flag.BoolVar(&pretty, "pretty", false, "show json pretty print of the scan")
 
@@ -32,13 +38,18 @@ func main() {
 		return
 	}
 
+	if list {
+		assetdump.List(path)
+		return
+	}
+
 	dump := assetdump.Dump{
 		Domain: domain}
 
 	dump.Init()
 
 	if load {
-		dump.Load(pretty)
+		dump.Load(path, pretty)
 
 		if ips {
 			dump.OutputIPs()

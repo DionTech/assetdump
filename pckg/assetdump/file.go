@@ -8,6 +8,7 @@ import (
 	"net"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/DionTech/stdoutformat"
 )
@@ -23,6 +24,8 @@ type wrapper = struct {
 	Certificates   map[string]string
 }
 
+var fileSuffix = ".assetdump.json"
+
 func (dump *Dump) Save() {
 	data := wrapper{
 		Domain:         dump.Domain,
@@ -35,7 +38,7 @@ func (dump *Dump) Save() {
 		Certificates:   dump.Certificates,
 	}
 
-	fileName := "./" + dump.Domain + ".json"
+	fileName := "./" + dump.Domain + fileSuffix
 
 	file, err := os.Open(filepath.FromSlash(fileName))
 
@@ -57,26 +60,96 @@ func (dump *Dump) Save() {
 	}
 }
 
-func (dump *Dump) Load(pretty bool) {
-	fileName := "./" + dump.Domain + ".json"
+func (dump *Dump) Load(path string, pretty bool) {
+	fileName := dump.Domain + fileSuffix
+	fmt.Println(fileName)
 
-	file, err := os.Open(filepath.FromSlash(fileName))
+	filepath.Walk(path, func(osPath string, f os.FileInfo, err error) error {
+		f, err = os.Stat(osPath)
 
-	if err != nil {
-		stdoutformat.Printf("cannot open file %s", fileName)
-		return
-	}
+		// If no error
+		if err != nil {
+			return nil
+		}
 
-	defer file.Close()
+		// File & Folder Mode
+		fMode := f.Mode()
 
-	byteValue, _ := ioutil.ReadAll(file)
-	json.Unmarshal(byteValue, dump)
+		// Is folder
+		if fMode.IsDir() {
 
-	if pretty {
-		var prettyJSON bytes.Buffer
-		json.Indent(&prettyJSON, byteValue, "", "\t")
+		} else {
+			if strings.Contains(osPath, fileName) {
+				file, err := os.Open(filepath.FromSlash(osPath))
 
-		fmt.Println(string(prettyJSON.Bytes()))
-	}
+				if err != nil {
+					stdoutformat.Printf("cannot open file %s", fileName)
+					return nil
+				}
 
+				defer file.Close()
+
+				byteValue, _ := ioutil.ReadAll(file)
+				json.Unmarshal(byteValue, dump)
+
+				if pretty {
+					var prettyJSON bytes.Buffer
+					json.Indent(&prettyJSON, byteValue, "", "\t")
+
+					fmt.Println(string(prettyJSON.Bytes()))
+				}
+
+				return nil
+			}
+
+		}
+		return nil
+	})
+
+	/*
+		fileName := "./" + dump.Domain + fileSuffix
+
+		file, err := os.Open(filepath.FromSlash(fileName))
+
+		if err != nil {
+			stdoutformat.Printf("cannot open file %s", fileName)
+			return
+		}
+
+		defer file.Close()
+
+		byteValue, _ := ioutil.ReadAll(file)
+		json.Unmarshal(byteValue, dump)
+
+		if pretty {
+			var prettyJSON bytes.Buffer
+			json.Indent(&prettyJSON, byteValue, "", "\t")
+
+			fmt.Println(string(prettyJSON.Bytes()))
+		}*/
+}
+
+func List(path string) {
+	filepath.Walk(path, func(osPath string, f os.FileInfo, err error) error {
+		f, err = os.Stat(osPath)
+
+		// If no error
+		if err != nil {
+			return nil
+		}
+
+		// File & Folder Mode
+		fMode := f.Mode()
+
+		// Is folder
+		if fMode.IsDir() {
+
+		} else {
+			if strings.Contains(osPath, fileSuffix) {
+				fmt.Println(strings.Replace(osPath, fileSuffix, "", -1))
+			}
+
+		}
+		return nil
+	})
 }
