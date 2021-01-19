@@ -28,6 +28,10 @@ var httpClient = &http.Client{
 }
 
 func HTTPStatus(domain string) {
+	if strings.Contains(domain, "*") {
+		return
+	}
+
 	if strings.HasPrefix(domain, ".") {
 		domain = strings.Replace(domain, ".", "", 1)
 	}
