@@ -29,6 +29,9 @@ func main() {
 	var hosts bool
 	flag.BoolVar(&hosts, "hosts", false, "show all fetched hosts")
 
+	var httpStatus bool
+	flag.BoolVar(&httpStatus, "status", false, "get a http status for domain")
+
 	flag.Parse()
 	domain := flag.Arg(0)
 
@@ -40,6 +43,11 @@ func main() {
 
 	if list {
 		assetdump.List(path)
+		return
+	}
+
+	if httpStatus {
+		assetdump.HTTPStatus(domain)
 		return
 	}
 
