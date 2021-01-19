@@ -57,7 +57,7 @@ func (dump *Dump) Save() {
 	}
 }
 
-func (dump *Dump) Load() {
+func (dump *Dump) Load(pretty bool) {
 	fileName := "./" + dump.Domain + ".json"
 
 	file, err := os.Open(filepath.FromSlash(fileName))
@@ -70,10 +70,13 @@ func (dump *Dump) Load() {
 	defer file.Close()
 
 	byteValue, _ := ioutil.ReadAll(file)
-	//json.Unmarshal(byteValue, &data)
-	var prettyJSON bytes.Buffer
-	json.Indent(&prettyJSON, byteValue, "", "\t")
+	json.Unmarshal(byteValue, dump)
 
-	fmt.Println(string(prettyJSON.Bytes()))
+	if pretty {
+		var prettyJSON bytes.Buffer
+		json.Indent(&prettyJSON, byteValue, "", "\t")
+
+		fmt.Println(string(prettyJSON.Bytes()))
+	}
 
 }

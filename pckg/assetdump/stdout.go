@@ -7,6 +7,43 @@ import (
 	"github.com/tatsushid/go-prettytable"
 )
 
+func (dump *Dump) OutputIPs() {
+	ips := make(map[string]bool, 0)
+
+	for ip, _ := range dump.HostLookup.IPs {
+		if _, exists := ips[ip]; exists == false {
+			ips[ip] = true
+		}
+	}
+
+	for _, ip := range dump.Certificates {
+		for _, part := range strings.Split(ip, "|") {
+			part = strings.Trim(part, " ")
+			if part != "n/a" {
+				if _, exists := ips[part]; exists == false {
+					ips[part] = true
+				}
+			}
+		}
+	}
+
+	for _, ip := range dump.Subdomains {
+		for _, part := range strings.Split(ip, "|") {
+			part = strings.Trim(part, " ")
+			if part != "n/a" {
+				if _, exists := ips[part]; exists == false {
+					ips[part] = true
+				}
+			}
+		}
+	}
+
+	fmt.Println("\n")
+	for ip, _ := range ips {
+		fmt.Println(ip)
+	}
+}
+
 func (dump *Dump) Output() {
 	fmt.Printf("\n\n_____________HOST-LookUp:\n\n")
 

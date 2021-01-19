@@ -11,6 +11,12 @@ func main() {
 	var load bool
 	flag.BoolVar(&load, "load", false, "load the stored scan")
 
+	var pretty bool
+	flag.BoolVar(&pretty, "pretty", false, "show json pretty print of the scan")
+
+	var ips bool
+	flag.BoolVar(&ips, "ips", false, "show all fetched ips")
+
 	flag.Parse()
 	domain := flag.Arg(0)
 
@@ -21,7 +27,12 @@ func main() {
 
 	if load {
 		stdoutformat.Logo()
-		dump.Load()
+		dump.Load(pretty)
+
+		if ips {
+			dump.OutputIPs()
+		}
+
 		return
 	}
 
