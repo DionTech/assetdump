@@ -39,7 +39,7 @@ func (dump *Dump) OutputHosts() {
 	sort.Strings(keys)
 
 	for _, k := range keys {
-		fmt.Println(k, hosts[k])
+		fmt.Println(k)
 	}
 }
 
@@ -82,7 +82,7 @@ func (dump *Dump) OutputIPs() {
 	sort.Strings(keys)
 
 	for _, k := range keys {
-		fmt.Println(k, ips[k])
+		fmt.Println(k)
 	}
 
 }
