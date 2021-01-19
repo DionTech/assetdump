@@ -62,7 +62,6 @@ func (dump *Dump) Save() {
 
 func (dump *Dump) Load(path string, pretty bool) {
 	fileName := dump.Domain + fileSuffix
-	fmt.Println(fileName)
 
 	filepath.Walk(path, func(osPath string, f os.FileInfo, err error) error {
 		f, err = os.Stat(osPath)
