@@ -7,8 +7,6 @@ import (
 	"net/http"
 	"strings"
 	"time"
-
-	"github.com/DionTech/stdoutformat"
 )
 
 var UserAgent = "Mozilla/5.0 (compatible; scrape/1.0; +github.com/DionTech/scrape)"
@@ -61,8 +59,7 @@ func makeRequest(domain string) {
 	req, err = http.NewRequest("GET", domain, nil)
 
 	if err != nil {
-		stdoutformat.Error(err)
-		fmt.Println("\n\n")
+		fmt.Printf("%s \n\n", err)
 		return
 	}
 	req.Close = true
@@ -73,8 +70,7 @@ func makeRequest(domain string) {
 		defer resp.Body.Close()
 	}
 	if err != nil {
-		stdoutformat.Error(err)
-		fmt.Println("\n\n")
+		fmt.Printf("%s \n\n", err)
 		return
 	}
 
@@ -91,5 +87,5 @@ func makeRequest(domain string) {
 		}
 	}
 
-	fmt.Println("\n\n")
+	fmt.Printf("\n\n")
 }
