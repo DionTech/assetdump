@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"sort"
 	"strings"
-
-	"github.com/tatsushid/go-prettytable"
 )
 
 func (dump *Dump) OutputHosts() {
@@ -13,6 +11,7 @@ func (dump *Dump) OutputHosts() {
 
 	for _, hostList := range dump.HostLookup.IPs {
 		for _, host := range hostList {
+			host = clearHost(host)
 			if _, exists := hosts[host]; exists == false {
 				hosts[host] = true
 			}
@@ -20,12 +19,14 @@ func (dump *Dump) OutputHosts() {
 	}
 
 	for subdomain := range dump.Subdomains {
+		subdomain = clearHost(subdomain)
 		if _, exists := hosts[subdomain]; exists == false {
 			hosts[subdomain] = true
 		}
 	}
 
 	for crt := range dump.Certificates {
+		crt = clearHost(crt)
 		if _, exists := hosts[crt]; exists == false {
 			hosts[crt] = true
 		}
@@ -87,6 +88,21 @@ func (dump *Dump) OutputIPs() {
 
 }
 
+func clearHost(host string) string {
+	prefixes := [4]string{
+		"http", "https", "*", "www."}
+
+	for _, prefix := range prefixes {
+		//do not know why, but HasPrefix not works correctly
+		if strings.Contains(host, prefix) {
+			host = strings.Replace(host, prefix, "", 1)
+		}
+	}
+
+	return host
+}
+
+/* not really used anymore
 func (dump *Dump) Output() {
 	fmt.Printf("\n\n_____________HOST-LookUp:\n\n")
 
@@ -217,3 +233,4 @@ func PrintThreatcrowd(dump *Dump) {
 
 	tbl.Print()
 }
+*/
