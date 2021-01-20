@@ -32,6 +32,10 @@ func HTTPStatus(domain string) {
 		return
 	}
 
+	//reduce before fill
+	domain = strings.Replace(domain, "https", "", 1)
+	domain = strings.Replace(domain, "http", "", 1)
+
 	if strings.HasPrefix(domain, ".") {
 		domain = strings.Replace(domain, ".", "", 1)
 	}
@@ -79,6 +83,7 @@ func makeRequest(domain string) {
 	// extract the response headers
 	//hs := make([]string, 0)
 	fmt.Println(domain)
+	fmt.Println(resp.Status)
 	for k, vs := range resp.Header {
 		for _, v := range vs {
 			//hs = append(hs, fmt.Sprintf("%s: %s", k, v))
