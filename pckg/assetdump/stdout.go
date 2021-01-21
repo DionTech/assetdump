@@ -7,8 +7,22 @@ import (
 )
 
 func (dump *Dump) OutputHosts() {
-	hosts := make(map[string]bool, 0)
+	hosts := dump.GetHosts()
 
+	//ordered map here
+	keys := make([]string, 0, len(hosts))
+	for k := range hosts {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+
+	for _, k := range keys {
+		fmt.Println(k)
+	}
+}
+
+func (dump *Dump) GetHosts() map[string]bool {
+	hosts := make(map[string]bool, 0)
 	for _, hostList := range dump.HostLookup.IPs {
 		for _, host := range hostList {
 			host = clearHost(host)
@@ -32,16 +46,7 @@ func (dump *Dump) OutputHosts() {
 		}
 	}
 
-	//ordered map here
-	keys := make([]string, 0, len(hosts))
-	for k := range hosts {
-		keys = append(keys, k)
-	}
-	sort.Strings(keys)
-
-	for _, k := range keys {
-		fmt.Println(k)
-	}
+	return hosts
 }
 
 func (dump *Dump) OutputIPs() {
