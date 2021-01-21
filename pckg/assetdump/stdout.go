@@ -25,24 +25,31 @@ func (dump *Dump) GetHosts() map[string]bool {
 	hosts := make(map[string]bool, 0)
 	for _, hostList := range dump.HostLookup.IPs {
 		for _, host := range hostList {
-			host = clearHost(host)
-			if _, exists := hosts[host]; exists == false {
-				hosts[host] = true
+			clHosts := clearHost(host)
+			for _, clHost := range clHosts {
+				if _, exists := hosts[clHost]; exists == false {
+					hosts[clHost] = true
+				}
 			}
+
 		}
 	}
 
 	for subdomain := range dump.Subdomains {
-		subdomain = clearHost(subdomain)
-		if _, exists := hosts[subdomain]; exists == false {
-			hosts[subdomain] = true
+		clHosts := clearHost(subdomain)
+		for _, clHost := range clHosts {
+			if _, exists := hosts[clHost]; exists == false {
+				hosts[clHost] = true
+			}
 		}
 	}
 
 	for crt := range dump.Certificates {
-		crt = clearHost(crt)
-		if _, exists := hosts[crt]; exists == false {
-			hosts[crt] = true
+		clHosts := clearHost(crt)
+		for _, clHost := range clHosts {
+			if _, exists := hosts[clHost]; exists == false {
+				hosts[clHost] = true
+			}
 		}
 	}
 
@@ -93,18 +100,23 @@ func (dump *Dump) OutputIPs() {
 
 }
 
-func clearHost(host string) string {
-	prefixes := [4]string{
-		"http", "https", "*", "www."}
+func clearHost(host string) []string {
+	hosts := make([]string, 0)
 
-	for _, prefix := range prefixes {
-		//do not know why, but HasPrefix not works correctly
-		if strings.Contains(host, prefix) {
-			host = strings.Replace(host, prefix, "", 1)
+	for _, el := range strings.Split(host, "\n") {
+		prefixes := [4]string{
+			"http", "https", "*", "www."}
+
+		for _, prefix := range prefixes {
+			//do not know why, but HasPrefix not works correctly
+			if strings.Contains(host, prefix) {
+				el = strings.Replace(el, prefix, "", 1)
+			}
+			hosts = append(hosts, el)
 		}
 	}
 
-	return host
+	return hosts
 }
 
 /* not really used anymore
