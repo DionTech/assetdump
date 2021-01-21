@@ -78,8 +78,7 @@ func makeRequest(domain string) {
 
 	// extract the response headers
 	//hs := make([]string, 0)
-	fmt.Println(domain)
-	fmt.Println(resp.Status)
+	fmt.Printf("%s | %s \n", domain, resp.Status)
 	for k, vs := range resp.Header {
 		for _, v := range vs {
 			//hs = append(hs, fmt.Sprintf("%s: %s", k, v))
