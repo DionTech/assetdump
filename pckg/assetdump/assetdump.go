@@ -40,6 +40,8 @@ func (dump *Dump) ScanHosts() {
 
 	if err != nil {
 		stdoutformat.Error(err)
+		ProcessWaitGroup.Done()
+		dump.Bar.Increment()
 		return
 	}
 
