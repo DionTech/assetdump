@@ -2,9 +2,11 @@ package main
 
 import (
 	"flag"
+	"fmt"
 
 	"github.com/DionTech/assetdump/pckg/assetdump"
 	"github.com/DionTech/stdoutformat"
+	"github.com/cheggaaa/pb/v3"
 )
 
 func main() {
@@ -69,6 +71,10 @@ func main() {
 
 		return
 	}
+
+	stdoutformat.Logo()
+	fmt.Println()
+	dump.Bar = pb.Simple.Start(7)
 
 	assetdump.ProcessWaitGroup.Add(1)
 	go dump.ScanHosts()

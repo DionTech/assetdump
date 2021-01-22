@@ -65,6 +65,7 @@ func (dump *Dump) ScanByCrtSh() {
 	}
 
 	ProcessWaitGroup.Done()
+	dump.Bar.Increment()
 }
 
 func scanCert(dump *Dump, cert string) {

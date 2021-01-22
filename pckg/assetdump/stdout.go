@@ -105,7 +105,7 @@ func clearHost(host string) []string {
 
 	for _, el := range strings.Split(host, "\n") {
 		prefixes := [4]string{
-			"http", "https", "*", "www."}
+			"http", "https", "*"}
 
 		for _, prefix := range prefixes {
 			//do not know why, but HasPrefix not works correctly

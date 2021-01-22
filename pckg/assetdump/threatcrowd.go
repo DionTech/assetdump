@@ -36,6 +36,7 @@ func (dump *Dump) ScanByThreatCrowd() {
 	checkError(err)
 
 	ProcessWaitGroup.Done()
+	dump.Bar.Increment()
 }
 
 func checkError(err error) {

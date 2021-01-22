@@ -5,6 +5,7 @@ import (
 	"sync"
 
 	"github.com/DionTech/stdoutformat"
+	"github.com/cheggaaa/pb/v3"
 )
 
 type HostLookup struct {
@@ -12,6 +13,7 @@ type HostLookup struct {
 }
 
 type Dump struct {
+	Bar               *pb.ProgressBar
 	Domain            string
 	HostLookup        HostLookup
 	CrtShList         []string
@@ -47,24 +49,29 @@ func (dump *Dump) ScanHosts() {
 	}
 
 	ProcessWaitGroup.Done()
+	dump.Bar.Increment()
 }
 
 func (dump *Dump) ScanMXNames() {
 	dump.MX, _ = net.LookupMX(dump.Domain)
 	ProcessWaitGroup.Done()
+	dump.Bar.Increment()
 }
 
 func (dump *Dump) ScanTXTRecords() {
 	dump.TXT, _ = net.LookupTXT(dump.Domain)
 	ProcessWaitGroup.Done()
+	dump.Bar.Increment()
 }
 
 func (dump *Dump) ScanForwardARecord() {
 	dump.ForwardARecord, _ = net.LookupIP(dump.Domain)
 	ProcessWaitGroup.Done()
+	dump.Bar.Increment()
 }
 
 func (dump *Dump) ScanNameserver() {
 	dump.Nameserver, _ = net.LookupNS(dump.Domain)
 	ProcessWaitGroup.Done()
+	dump.Bar.Increment()
 }

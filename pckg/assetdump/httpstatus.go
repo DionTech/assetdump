@@ -38,9 +38,10 @@ func HTTPStatus(domain string) {
 		domain = strings.Replace(domain, ".", "", 1)
 	}
 
-	if !strings.HasPrefix(domain, "www.") {
-		domain = "www." + domain
-	}
+	/*
+		if !strings.HasPrefix(domain, "www.") {
+			domain = "www." + domain
+		}*/
 
 	if !strings.HasPrefix(domain, "http://") && !strings.HasPrefix(domain, "https://") {
 		makeRequest("http://" + domain)
